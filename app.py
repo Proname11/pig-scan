@@ -13,7 +13,10 @@ if st.button("Start Debug"):
 
         st.write("2. กำลังเชื่อมต่อ AI...")
         genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+        models = genai.list_models()
+        for m in models:
+            if 'generateContent' in m.supported_generation_methods:
+                st.write(f"Model ที่ใช้ได้: {m.name}")
         st.write("   เชื่อมต่อ AI สำเร็จ")
 
         st.write("3. กำลังทดสอบส่งข้อความหา AI...")
