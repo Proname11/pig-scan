@@ -1,17 +1,20 @@
 import streamlit as st
-import pandas as pd
-from fill_excel import get_google_sheet_data
+from fill_excel import get_sheet_data
+
+# กำหนด ID ของไฟล์ (ที่ก๊อปปี้มาจาก URL)
+ID_N1 = "1BYH07Wdv-Us2Ke45U7D2zk8_ZXDTMEDJQlLylOhz5ow"
+ID_PRE_PIK = "1AnkQmZwn8GiOKaXeVYseqhDtogRYPHmD9_JPhQUMrV0"
 
 st.title("Pig Scan Data Processor")
 
-# ดึงข้อมูลมาแสดงเป็นตัวอย่าง
-if st.button("Load Template"):
-    data = get_google_sheet_data("ชื่อไฟล์ในGoogleSheetsของคุณ")
-    df = pd.DataFrame(data)
-    st.write("ข้อมูลจาก Google Sheets:", df)
-
-# ส่วนของการอัปโหลดรูปและรัน AI (ใส่โค้ดประมวลผลของคุณที่นี่)
-uploaded_file = st.file_uploader("Upload Image", type=['jpg', 'png'])
-if uploaded_file:
-    st.write("Processing image...")
-    # ใส่ logic การเรียกใช้ OpenAI หรือประมวลผลภาพที่นี่
+# ตัวอย่างการใช้งานดึงข้อมูล
+if st.button("Load Data"):
+    try:
+        data_n1 = get_sheet_data(ID_N1)
+        data_pre_pik = get_sheet_data(ID_PRE_PIK)
+        
+        st.success("โหลดข้อมูลสำเร็จ!")
+        st.write("ข้อมูลจาก N1:", data_n1)
+    except Exception as e:
+        st.error(f"เกิดข้อผิดพลาด: {e}")
+        st.info("ตรวจสอบให้แน่ใจว่าได้แชร์ไฟล์ให้ Email ของบอทแล้ว (ในขั้นตอน Share)")
