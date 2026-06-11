@@ -1,6 +1,6 @@
 streamlit
 gspread
 oauth2client
-openai
 pandas
 openpyxl
+openai
