@@ -1,5 +1,5 @@
 streamlit
 gspread
-oauth2client
-google-generativeai
+google-auth
 pillow
+google-generativeai
