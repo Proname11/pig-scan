@@ -1,26 +1,26 @@
 import streamlit as st
 import google.generativeai as genai
-from fill_excel import get_client, save_to_sheet # ตรวจสอบการ import ให้ตรง
+from fill_excel import get_client, save_to_sheet 
 
 st.title("Debug Mode")
 
 if st.button("Start Debug"):
     try:
         st.write("1. กำลังโหลด Secrets...")
-        # ลองดึงค่าออกมาดูว่ามีไหม
         api_key = st.secrets["api_keys"]["GOOGLE_API_KEY"]
         st.write("   Secrets โหลดสำเร็จ")
 
         st.write("2. กำลังเชื่อมต่อ AI...")
         genai.configure(api_key=api_key)
-        models = genai.list_models()
-        for m in models:
-            if 'generateContent' in m.supported_generation_methods:
-                st.write(f"Model ที่ใช้ได้: {m.name}")
-        st.write("   เชื่อมต่อ AI สำเร็จ")
+        
+        # --- จุดแก้ไข: ต้องประกาศตัวแปร model ที่นี่ก่อนใช้งาน ---
+        model_name = "gemini-1.5-flash" 
+        model = genai.GenerativeModel(model_name) 
+        st.write(f"   เชื่อมต่อ AI สำเร็จ (ใช้รุ่น: {model_name})")
 
         st.write("3. กำลังทดสอบส่งข้อความหา AI...")
-        response = model.generate_content("Hello")
+        # ตอนนี้เรียกใช้ model ได้แล้วเพราะประกาศไว้บรรทัดบน
+        response = model.generate_content("Hello, just confirm if you are working.")
         st.write("   AI ตอบกลับมาว่า:", response.text)
 
         st.success("ทุกอย่างปกติดี!")
